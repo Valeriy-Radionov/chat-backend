@@ -3,14 +3,19 @@ import mongoose from "mongoose"
 const userSchema = new mongoose.Schema({
   id: {
     type: String,
+    required: true,
+  },
+  username: {
+    type: String,
+    required: true,
+    min: 3,
+    max: 20,
     unique: true,
   },
-  userName: {
+  token: {
     type: String,
-    min: 3,
-    max: 40,
-    unique: true,
+    required: true,
   },
 })
 
-export const User = mongoose.model("Users", userSchema)
+export const User = mongoose.model("users", userSchema)

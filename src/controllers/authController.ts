@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import { nanoid } from "nanoid"
 import { usersCollection } from "../common/database/usersDatabase"
-import { User } from "../models/userModel"
 export type AuthResponseType = {
   msg: string
   status: boolean
@@ -53,11 +52,9 @@ export const me = async (request: Request<MeRequestType>, response: Response<MeR
 
 export const logout = async (request: Request<MeRequestType>, response: Response<AuthResponseType>, next: NextFunction) => {
   try {
-    const token = request.body.token
-    console.log(token)
-    const user = await usersCollection.findOne({ token: token })
-    if (user) {
-      await usersCollection.findOneAndUpdate({ id: user.id }, { $set: { isAuth: false, token: "" } })
+    const token = request.params.token
+    if (token) {
+      await usersCollection.findOneAndUpdate({ token: token }, { $set: { isAuth: false, token: "" } })
       return response.status(201).json({ msg: "User logout!", status: true, token: "" })
     } else {
       return response.status(401).json({ msg: "Failure", status: false, token: "" })
