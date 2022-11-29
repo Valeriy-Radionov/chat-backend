@@ -1,11 +1,10 @@
 import { NextFunction, Request, Response } from "express"
-import { nanoid } from "nanoid"
-import { usersCollection, UsersMessageType } from "../common/database/usersDatabase"
+import { UserType } from "../common/database/usersDatabase"
 
 type GetAllMessagesRequestType = {
   id: string
 }
-export const getAllMessages = async (request: Request<GetAllMessagesRequestType>, response: Response<UsersMessageType[]>, next: NextFunction) => {
+export const getAllMessages = async (request: Request<GetAllMessagesRequestType>, response: Response, next: NextFunction) => {
   // try {
   const userId = request.params.id
   // const userNameCheck = await usersCollection.findOne({ userName: userName })
