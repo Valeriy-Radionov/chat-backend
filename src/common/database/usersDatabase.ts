@@ -11,9 +11,11 @@ export type UserType = {
 
 export type UsersMessageType = {
   id: string
+  destination: string
   textMessage: string
   themeMessage: string
-  dateOfSend: Date
+  senderId: string
+  dateOfSend: string
 }
 export const client = new MongoClient(mongoUri)
 

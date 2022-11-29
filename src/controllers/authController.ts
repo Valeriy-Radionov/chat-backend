@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import { nanoid } from "nanoid"
-import { usersCollection } from "../common/database/usersDatabase"
+import { usersCollection, UserType } from "../common/database/usersDatabase"
 export type AuthResponseType = {
   msg: string
   status: boolean
@@ -16,16 +16,16 @@ export type MeResponseType = {
   msg: string
   isAuth: boolean
 }
-export const auth = async (request: Request<AuthRequestType>, response: Response<AuthResponseType>, next: NextFunction) => {
+export const auth = async (request: Request<AuthRequestType>, response: Response<UserType | AuthResponseType>, next: NextFunction) => {
   try {
     const userName = request.body.name
-    const userNameCheck = await usersCollection.findOne({ userName: userName })
-    if (userNameCheck) {
-      return response.status(201).json({ msg: "Username already used", status: true, token: userNameCheck.token })
+    const userCheck = await usersCollection.findOne({ userName: userName })
+    if (userCheck) {
+      return response.status(201).json({ id: userCheck.id, userName: userCheck.userName, token: userCheck.token })
     } else {
       const id = nanoid()
       const user = await usersCollection.insertOne({ id: id, userName: userName, token: id })
-      return user && response.status(201).json({ msg: "Success! User created", status: true, token: id })
+      return user && response.status(201).json({ id, userName, token: id })
     }
   } catch (e) {
     next(e)

@@ -1,18 +1,43 @@
 import { NextFunction, Request, Response } from "express"
-import { UserType } from "../common/database/usersDatabase"
+import { nanoid } from "nanoid"
+import { messsagesCollection, UsersMessageType, UserType } from "../common/database/usersDatabase"
+import { MessagesErrorType } from "./usersController"
 
 type GetAllMessagesRequestType = {
-  id: string
+  userName: string
 }
-export const getAllMessages = async (request: Request<GetAllMessagesRequestType>, response: Response, next: NextFunction) => {
-  // try {
-  const userId = request.params.id
-  // const userNameCheck = await usersCollection.findOne({ userName: userName })
-  // if (userNameCheck) {
-  // return response.status(201).json({ msg: "Username already used", status: true, token: userNameCheck.token })
-  // }
-  // } catch (e) {
-  // next(e)
-  // return response.status(400).json({ msg: "Request Failure!", status: false, token: "" })
-  // }
+type AddMessageRequestType = {
+  destination: string
+  textMessage: string
+  themeMessage: string
+  sender: string
+}
+export const getAllMessages = async (request: Request<GetAllMessagesRequestType>, response: Response<UsersMessageType[] | { msg: string }>, next: NextFunction) => {
+  try {
+    const userName = request.body.userName
+    const messages = await messsagesCollection.find({ destination: userName }).toArray()
+    if (messages.length > 0) {
+      return response.status(201).send(messages)
+    } else {
+      return response.status(201).send({ msg: "You don't have messages" })
+    }
+  } catch (e) {
+    next(e)
+  }
+}
+
+export const addMessage = async (request: Request<AddMessageRequestType>, response: Response<MessagesErrorType>, next: NextFunction) => {
+  try {
+    const { destination, textMessage, themeMessage, senderId } = request.body
+    if (destination && textMessage && themeMessage) {
+      const id = nanoid()
+      const date = new Date().toLocaleString()
+      const responseData = await messsagesCollection.insertOne({ id: id, destination, textMessage, themeMessage, dateOfSend: date, senderId })
+      responseData && response.status(201).send({ msg: "Message sent successfully!", statusCode: 201 })
+    } else {
+      response.status(400).send({ msg: "Message was not sent!", statusCode: 400 })
+    }
+  } catch (e) {
+    response.status(400).send({ msg: `Error - ${e}`, statusCode: 400 })
+  }
 }
