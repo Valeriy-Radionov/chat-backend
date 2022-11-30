@@ -4,19 +4,24 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@socket.io/mongo-adapter": "^0.2.1",
+    "@socket.io/mongo-emitter": "^0.1.0",
     "@types/body-parser": "^1.19.2",
     "@types/cors": "^2.8.12",
     "@types/dotenv": "^8.2.0",
     "@types/mongodb": "^4.0.7",
     "@types/mongoose": "^5.11.97",
+    "@types/socket.io": "^3.0.2",
     "config": "3.3.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-validator": "^6.14.2",
-    "mongodb": "^4.12.0",
+    "mongodb": "^4.12.1",
     "mongoose": "^6.7.3",
-    "nanoid": "3.0.0"
+    "nanoid": "3.0.0",
+    "socket.io": "^4.5.4",
+    "socket.io-emitter": "^3.2.0"
   },
   "scripts": {
     "watch": "tsc -w",

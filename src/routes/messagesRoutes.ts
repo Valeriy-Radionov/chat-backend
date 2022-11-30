@@ -4,5 +4,5 @@ import { addMessage, getAllMessages } from "../controllers/messagesController"
 
 export const messagesRouter = Router({})
 
-messagesRouter.get("/all/:id", getAllMessages)
+messagesRouter.get("/all/:senderId", getAllMessages)
 messagesRouter.post("/message", addMessage)
