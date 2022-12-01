@@ -11,6 +11,9 @@ const parser = express.json()
 
 app.use(cors())
 app.use(parser)
+app.get("/", (req, res) => {
+  res.send("404 URL NOT FOUND")
+})
 app.use("/auth", authRouter)
 app.use("/messages", messagesRouter)
 app.use("/users", usersRouter)
