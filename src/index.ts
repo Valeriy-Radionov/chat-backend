@@ -26,5 +26,6 @@ const startApp = async () => {
     console.log(error)
   }
 }
+
 module.exports = app
 startApp()
