@@ -1,5 +1,4 @@
 import cors from "cors"
-import EventEmitter from "events"
 import express from "express"
 import { runDb } from "./common/database/usersDatabase"
 import { authRouter } from "./routes/authRoutes"
@@ -27,5 +26,5 @@ const startApp = async () => {
     console.log(error)
   }
 }
-
+module.exports = app
 startApp()
