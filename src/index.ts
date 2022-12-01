@@ -4,12 +4,11 @@ import { runDb } from "./common/database/usersDatabase"
 import { authRouter } from "./routes/authRoutes"
 import { messagesRouter } from "./routes/messagesRoutes"
 import { usersRouter } from "./routes/usersRoutes"
-
 require("dotenv").config()
 const app = express()
 const port = process.env.PORT || 5000
 const parser = express.json()
-
+console.log(port)
 app.use(cors())
 app.use(parser)
 app.use("/auth", authRouter)
