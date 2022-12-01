@@ -1,5 +1,3 @@
-import { createAdapter } from "@socket.io/mongo-adapter"
-import { Emitter } from "@socket.io/mongo-emitter"
 import { MongoClient } from "mongodb"
 import { Server } from "socket.io"
 
